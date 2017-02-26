@@ -18,25 +18,25 @@ module RuntimeCommand
 
     describe 'stdout' do
       it 'should be output message' do
-        expect(logger.stdout('test')).to eq("test")
+        expect(logger.stdout('test')).to eq('test')
 
         logger.flash
         logger.stdout('test')
 
-        expect(logger.buffered_stdout).to eq("test")
-        expect(logger.buffered_log).to eq("test")
+        expect(logger.buffered_stdout).to eq('test')
+        expect(logger.buffered_log).to eq('test')
       end
     end
 
     describe 'stderr' do
       it 'should be output message' do
-        expect(logger.stderr('test')).to eq("test")
+        expect(logger.stderr('test')).to eq('test')
 
         logger.flash
         logger.stderr('test')
 
-        expect(logger.buffered_stderr).to eq("test")
-        expect(logger.buffered_log).to eq("test")
+        expect(logger.buffered_stderr).to eq('test')
+        expect(logger.buffered_log).to eq('test')
       end
     end
   end
