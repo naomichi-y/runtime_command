@@ -19,15 +19,14 @@ module RuntimeCommand
       @stdout_color = HighLine::Style.rgb(*stdout_rgb)
       @stderr_color = HighLine::Style.rgb(*stderr_rgb)
 
-      @buffered_log = ''
-      @buffered_stdout = ''
-      @buffered_stderr = ''
+      flash
     end
 
     def stdin(line)
       puts HighLine.color(line, @stdin_color) if @output
-
       @buffered_log << line + "\n"
+
+      return
     end
 
     def stdout(line)
@@ -35,6 +34,8 @@ module RuntimeCommand
 
       @buffered_log << line
       @buffered_stdout << line
+
+      return
     end
 
     def stderr(line)
@@ -42,6 +43,16 @@ module RuntimeCommand
 
       @buffered_log << line
       @buffered_stderr << line
+
+      return
+    end
+
+    def flash
+      @buffered_log = ''
+      @buffered_stdout = ''
+      @buffered_stderr = ''
+
+      return
     end
   end
 end
