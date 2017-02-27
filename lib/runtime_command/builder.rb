@@ -4,11 +4,11 @@ require 'highline'
 module RuntimeCommand
   class Builder
     attr_reader :buffered_log
-    attr_accessor :stdin_prefix, :colors
+    attr_accessor :stdin_prefix, :colors, :output
 
-    def initialize(base_dir = '.', output = true)
+    def initialize(base_dir = '.')
       @base_dir = base_dir
-      @output = output
+      @output = true
       @buffered_log = ''
       @stdin_prefix = '>'
     end
