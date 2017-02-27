@@ -37,6 +37,7 @@ Output contents can be get as character string.
 command.output = false
 logger = command.exec('echo wait; sleep 3; echo hello')
 
+puts logger.buffered_log
 puts logger.buffered_stdout
 puts logger.buffered_stderr
 ```
