@@ -1,4 +1,5 @@
 require 'open3'
+require 'runtime_command/logger'
 
 module RuntimeCommand
   class Builder
