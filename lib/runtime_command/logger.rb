@@ -1,3 +1,5 @@
+require 'highline'
+
 module RuntimeCommand
   class Logger
     attr_reader :buffered_log, :buffered_stdout, :buffered_stderr

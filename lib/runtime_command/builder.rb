@@ -1,5 +1,4 @@
 require 'open3'
-require 'highline'
 
 module RuntimeCommand
   class Builder
