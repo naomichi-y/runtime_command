@@ -4,6 +4,9 @@ module RuntimeCommand
   class Logger
     attr_reader :buffered_log, :buffered_stdout, :buffered_stderr
 
+    # @param [Boolean] output
+    # @param [Hash] colors
+    # @return RuntimeCommand::Logger
     def initialize(output = true, colors = nil)
       @output = output
 
@@ -24,6 +27,7 @@ module RuntimeCommand
       flash
     end
 
+    # @param [string] line
     def stdin(line)
       puts HighLine.color(line, @stdin_color) if @output
       @buffered_log << line + "\n"
@@ -31,6 +35,7 @@ module RuntimeCommand
       return
     end
 
+    # @param [String] line
     def stdout(line)
       puts HighLine.color(line.chomp, @stdout_color) if @output
 
@@ -40,6 +45,7 @@ module RuntimeCommand
       return
     end
 
+    # @param [String] line
     def stderr(line)
       puts HighLine.color(line.chomp, @stderr_color) if @output
 

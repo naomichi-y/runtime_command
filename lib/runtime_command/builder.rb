@@ -6,6 +6,8 @@ module RuntimeCommand
     attr_reader :buffered_log
     attr_accessor :stdin_prefix, :colors, :output
 
+    # @param [String] base_dir
+    # @return [RuntimeCommand::Builder]
     def initialize(base_dir = '.')
       @base_dir = base_dir
       @output = true
@@ -13,6 +15,9 @@ module RuntimeCommand
       @stdin_prefix = '>'
     end
 
+    # @param [String] command
+    # @param [String] chdir
+    # @return [RuntimeCommand::Logger]
     def exec(command, chdir = nil)
       chdir ||= @base_dir
 
@@ -40,6 +45,15 @@ module RuntimeCommand
       end
 
       logger
+    end
+
+    # @param [String] line
+    def puts(line)
+      logger = Logger.new(@output, @colors)
+      logger.stdout(line)
+
+      @buffered_log << logger.buffered_log
+      return
     end
   end
 end
