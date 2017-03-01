@@ -27,12 +27,17 @@ module RuntimeCommand
       flash
     end
 
-    # @param [string] line
+    # @param [String] line
     def stdin(line)
       puts HighLine.color(line, @stdin_color) if @output
       @buffered_log << line + "\n"
 
       return
+    end
+
+    # @return [Boolean]
+    def stdout?
+      !@buffered_stdout.empty?
     end
 
     # @param [String] line
@@ -43,6 +48,11 @@ module RuntimeCommand
       @buffered_stdout << line
 
       return
+    end
+
+    # @return [Boolean]
+    def stderr?
+      !@buffered_stderr.empty?
     end
 
     # @param [String] line
