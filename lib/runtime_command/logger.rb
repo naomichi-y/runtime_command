@@ -7,22 +7,12 @@ module RuntimeCommand
     # @param [Boolean] output
     # @param [Hash] colors
     # @return RuntimeCommand::Logger
-    def initialize(output = true, colors = nil)
+    def initialize(output = true, colors = {})
       @output = output
 
-      stdin_rgb = [204, 204, 0]
-      stdout_rgb = [64, 64, 64]
-      stderr_rgb = [255, 51, 51]
-
-      if colors
-        stdin_rgb = colors[:stdin] if colors.has_key?(:stdin)
-        stdout_rgb = colors[:stdout] if colors.has_key?(:stdout)
-        stderr_rgb = colors[:stderr] if colors.has_key?(:stderr)
-      end
-
-      @stdin_color = HighLine::Style.rgb(*stdin_rgb)
-      @stdout_color = HighLine::Style.rgb(*stdout_rgb)
-      @stderr_color = HighLine::Style.rgb(*stderr_rgb)
+      @stdin_color = colors[:stdin] || HighLine::Style.rgb(204, 204, 0)
+      @stdout_color = colors[:stdout] || HighLine::Style.rgb(64, 64, 64)
+      @stderr_color = colors[:stderr] || HighLine::Style.rgb(255, 51, 51)
 
       flash
     end

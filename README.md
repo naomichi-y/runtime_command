@@ -41,3 +41,10 @@ puts logger.buffered_log
 puts logger.buffered_stdout
 puts logger.buffered_stderr
 ```
+
+Change STDOUT color.
+
+```
+command.colors[:stdout] = HighLine::Style.rgb(255, 0, 0)
+logger = command.exec('ls -la')
+```

@@ -13,6 +13,7 @@ module RuntimeCommand
       @output = true
       @buffered_log = ''
       @stdin_prefix = '>'
+      @colors = {}
     end
 
     # @param [String] command
@@ -37,10 +38,11 @@ module RuntimeCommand
           end
         end
 
-        @buffered_log << logger.buffered_log
-
+      rescue Interrupt
+        logger.stderr('Interrupt error')
       rescue => e
         logger.stderr(e.to_s)
+      ensure
         @buffered_log << logger.buffered_log
       end
 

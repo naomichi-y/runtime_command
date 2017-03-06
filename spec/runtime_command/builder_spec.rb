@@ -9,19 +9,34 @@ module RuntimeCommand
     end
 
     describe 'exec' do
-      let(:command) { RuntimeCommand::Builder.new }
+      let(:runtime) { RuntimeCommand::Builder.new }
+      let(:logger) { runtime.exec('command') }
+
+      before do
+        allow(runtime).to receive(:exec).and_return(logger_mock)
+      end
 
       context 'output of STDOUT' do
+        let(:logger_mock) {
+          double('logger_mock', buffered_stdout: 'success', buffered_stderr: '', buffered_log: 'success')
+        }
+
         it 'should be output message' do
-          expect(command.exec('echo -n hello').buffered_stdout).to eq('hello')
-          expect(command.exec('echo -n hello').buffered_stderr).to be_empty
+          expect(logger.buffered_stdout).to eq('success')
+          expect(logger.buffered_stderr).to be_empty
+          expect(logger.buffered_log).to eq('success')
         end
       end
 
       context 'output of STDERR' do
+        let(:logger_mock) {
+          double('logger_mock', buffered_stdout: '', buffered_stderr: 'error', buffered_log: 'error')
+        }
+
         it 'should be output message' do
-          expect(command.exec('dummy_command').buffered_stdout).to be_empty
-          expect(command.exec('dummy_command').buffered_stderr).not_to be_empty
+          expect(logger.buffered_stdout).to be_empty
+          expect(logger.buffered_stderr).to eq('error')
+          expect(logger.buffered_log).to eq('error')
         end
       end
     end
