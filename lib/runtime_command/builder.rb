@@ -29,12 +29,12 @@ module RuntimeCommand
         Open3.popen3(command, chdir: chdir) do |stdin, stdout, stderr, wait_thr|
           stdin.close
 
-          stdout.each do |line|
-            logger.stdout(line)
+          stdout.each do |message|
+            logger.stdout(message)
           end
 
-          stderr.each do |line|
-            logger.stderr(line)
+          stderr.each do |message|
+            logger.stderr(message)
           end
         end
 
@@ -49,13 +49,24 @@ module RuntimeCommand
       logger
     end
 
-    # @param [String] line
-    def puts(line)
+    # @param [String] message
+    # @return [RuntimeCommand::Logger]
+    def puts(message)
       logger = Logger.new(@output, @colors)
-      logger.stdout(line)
+      logger.stdout(message)
 
       @buffered_log << logger.buffered_log
-      return
+      logger
+    end
+
+    # @param [String] message
+    # @return [RuntimeCommand::Logger]
+    def puts_error(message)
+      logger = Logger.new(@output, @colors)
+      logger.stderr(message)
+
+      @buffered_log << logger.buffered_log
+      logger
     end
   end
 end
