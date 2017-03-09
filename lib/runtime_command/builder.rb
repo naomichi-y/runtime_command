@@ -55,7 +55,7 @@ module RuntimeCommand
       logger = Logger.new(@output, @colors)
       logger.stdout(message)
 
-      @buffered_log << logger.buffered_log
+      @buffered_log << logger.buffered_log + "\n"
       logger
     end
 
@@ -65,7 +65,7 @@ module RuntimeCommand
       logger = Logger.new(@output, @colors)
       logger.stderr(message)
 
-      @buffered_log << logger.buffered_log
+      @buffered_log << logger.buffered_log + "\n"
       logger
     end
   end

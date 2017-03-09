@@ -49,14 +49,26 @@ module RuntimeCommand
         expect(logger.buffered_log).to eq('test')
         expect(logger.buffered_stdout).to eq('test')
       end
+
+      it 'should be return all input message' do
+        command.puts('test')
+        command.puts('test')
+        expect(command.buffered_log).to eq("test\ntest\n")
+      end
     end
 
     describe 'puts_error' do
       let(:logger) { command.puts_error('test') }
 
-      it 'should be return input message' do
+      it 'should be return error message' do
         expect(logger.buffered_log).to eq('test')
         expect(logger.buffered_stderr).to eq('test')
+      end
+
+      it 'should be return all error message' do
+        command.puts('test')
+        command.puts('test')
+        expect(command.buffered_log).to eq("test\ntest\n")
       end
     end
   end
