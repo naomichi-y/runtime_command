@@ -1,6 +1,6 @@
 # RuntimeCommand
 
-Execute external command and retrive STDIN / STDOUT in real time.
+Execute external command and retrive STDIN/STDOUT in real time.
 
 TODO: Delete this and the text above, and describe your gem
 
