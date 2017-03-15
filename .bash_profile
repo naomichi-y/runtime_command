@@ -1,1 +1,0 @@
-/Users/naomichi/Projects/dotfiles/.bash_profile
