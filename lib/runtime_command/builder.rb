@@ -53,7 +53,7 @@ module RuntimeCommand
     # @return [RuntimeCommand::Logger]
     def puts(message)
       logger = Logger.new(@output, @colors)
-      logger.stdout(message)
+      logger.stdout(message) unless message.nil?
 
       @buffered_log << logger.buffered_log + "\n"
       logger
@@ -63,7 +63,7 @@ module RuntimeCommand
     # @return [RuntimeCommand::Logger]
     def puts_error(message)
       logger = Logger.new(@output, @colors)
-      logger.stderr(message)
+      logger.stderr(message) unless message.nil?
 
       @buffered_log << logger.buffered_log + "\n"
       logger

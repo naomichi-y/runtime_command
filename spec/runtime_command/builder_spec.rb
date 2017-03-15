@@ -43,32 +43,60 @@ module RuntimeCommand
     end
 
     describe 'puts' do
-      let(:logger) { command.puts('test') }
+      context 'when string specified' do
+        let(:logger) { command.puts('test') }
 
-      it 'should be return input message' do
-        expect(logger.buffered_log).to eq('test')
-        expect(logger.buffered_stdout).to eq('test')
+        it 'should be return RuntimeCommand::Logger' do
+          expect(logger).to be_a(RuntimeCommand::Logger)
+        end
+
+        it 'should be return input message' do
+          expect(logger.buffered_log).to eq('test')
+          expect(logger.buffered_stdout).to eq('test')
+        end
+
+        it 'should be return all input message' do
+          command.puts('test')
+          command.puts('test')
+          expect(command.buffered_log).to eq("test\ntest\n")
+        end
       end
 
-      it 'should be return all input message' do
-        command.puts('test')
-        command.puts('test')
-        expect(command.buffered_log).to eq("test\ntest\n")
+      context 'when nil specified' do
+        let(:logger) { command.puts(nil) }
+
+        it 'should be return RuntimeCommand::Logger' do
+          expect(logger).to be_a(RuntimeCommand::Logger)
+        end
       end
     end
 
     describe 'puts_error' do
-      let(:logger) { command.puts_error('test') }
+      context 'when string specified' do
+        let(:logger) { command.puts_error('test') }
 
-      it 'should be return error message' do
-        expect(logger.buffered_log).to eq('test')
-        expect(logger.buffered_stderr).to eq('test')
+        it 'should be return RuntimeCommand::Logger' do
+          expect(logger).to be_a(RuntimeCommand::Logger)
+        end
+
+        it 'should be return error message' do
+          expect(logger.buffered_log).to eq('test')
+          expect(logger.buffered_stderr).to eq('test')
+        end
+
+        it 'should be return all error message' do
+          command.puts('test')
+          command.puts('test')
+          expect(command.buffered_log).to eq("test\ntest\n")
+        end
       end
 
-      it 'should be return all error message' do
-        command.puts('test')
-        command.puts('test')
-        expect(command.buffered_log).to eq("test\ntest\n")
+      context 'when nil specified' do
+        let(:logger) { command.puts_error(nil) }
+
+        it 'should be return RuntimeCommand::Logger' do
+          expect(logger).to be_a(RuntimeCommand::Logger)
+        end
       end
     end
   end
