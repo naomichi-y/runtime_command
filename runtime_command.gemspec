@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['n.yamakita@gmail.com']
 
   spec.summary       = 'Execute external command from Ruby.'
-  spec.description   = 'Execute external command and retrive STDIN / STDOUT in real time.'
+  spec.description   = 'Execute external command and retrive STDIN/STDOUT in real time.'
   spec.homepage      = 'https://github.com/naomichi-y/runtime_command'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
