@@ -1,0 +1,21 @@
+Style/Documentation:
+  Enabled: false
+Style/ExtraSpacing:
+  Enabled: false
+Metrics/AbcSize:
+  Max: 20
+Metrics/BlockLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  CountComments: false
+  Max: 64
+Metrics/ModuleLength:
+  Enabled: false
+Security/YAMLLoad:
+  Enabled: false
+Style/SpaceAroundOperators:
+  Enabled: false

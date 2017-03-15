@@ -26,7 +26,7 @@ module RuntimeCommand
       logger.stdin(@stdin_prefix + ' ' + command)
 
       begin
-        Open3.popen3(command, chdir: chdir) do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3(command, chdir: chdir) do |stdin, stdout, stderr|
           stdin.close
 
           stdout.each do |line|
@@ -55,7 +55,7 @@ module RuntimeCommand
       logger.stdout(line)
 
       @buffered_log << logger.buffered_log
-      return
+      nil
     end
   end
 end

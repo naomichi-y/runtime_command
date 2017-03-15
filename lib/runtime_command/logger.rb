@@ -22,7 +22,7 @@ module RuntimeCommand
       puts HighLine.color(line, @stdin_color) if @output
       @buffered_log << line + "\n"
 
-      return
+      nil
     end
 
     # @return [Boolean]
@@ -37,7 +37,7 @@ module RuntimeCommand
       @buffered_log << line
       @buffered_stdout << line
 
-      return
+      nil
     end
 
     # @return [Boolean]
@@ -52,7 +52,7 @@ module RuntimeCommand
       @buffered_log << line
       @buffered_stderr << line
 
-      return
+      nil
     end
 
     def flash
@@ -60,7 +60,7 @@ module RuntimeCommand
       @buffered_stdout = ''
       @buffered_stderr = ''
 
-      return
+      nil
     end
   end
 end

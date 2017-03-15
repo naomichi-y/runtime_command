@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 module RuntimeCommand
   describe Builder do
@@ -17,9 +17,9 @@ module RuntimeCommand
       end
 
       context 'output of STDOUT' do
-        let(:logger_mock) {
+        let(:logger_mock) do
           double('logger_mock', buffered_stdout: 'success', buffered_stderr: '', buffered_log: 'success')
-        }
+        end
 
         it 'should be output message' do
           expect(logger.buffered_stdout).to eq('success')
@@ -29,9 +29,9 @@ module RuntimeCommand
       end
 
       context 'output of STDERR' do
-        let(:logger_mock) {
+        let(:logger_mock) do
           double('logger_mock', buffered_stdout: '', buffered_stderr: 'error', buffered_log: 'error')
-        }
+        end
 
         it 'should be output message' do
           expect(logger.buffered_stdout).to be_empty
