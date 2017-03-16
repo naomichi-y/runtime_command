@@ -1,2 +1,20 @@
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'runtime_command'
+require 'bundler/setup'
+require 'simplecov'
+
+if ENV['CIRCLE_ARTIFACTS']
+  dir = File.join(ENV['CIRCLE_ARTIFACTS'], 'coverage')
+  SimpleCov.coverage_dir(dir)
+end
+
+SimpleCov.start
+
+RSpec.configure do |config|
+  # Enable flags like --only-failures and --next-failure
+  config.example_status_persistence_file_path = '.rspec_status'
+
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+
+  config.include JsonSpec::Helpers
+end
