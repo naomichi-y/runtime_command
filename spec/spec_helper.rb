@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'runtime_command'
 require 'simplecov'
 
 if ENV['CIRCLE_ARTIFACTS']
