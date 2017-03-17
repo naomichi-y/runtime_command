@@ -1,5 +1,3 @@
-require 'bundler/setup'
-require 'runtime_command'
 require 'simplecov'
 
 if ENV['CIRCLE_ARTIFACTS']
@@ -10,6 +8,9 @@ end
 SimpleCov.start do
   coverage_dir 'tmp/coverage'
 end
+
+require 'bundler/setup'
+require 'runtime_command'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
