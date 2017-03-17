@@ -1,8 +1,8 @@
 # RuntimeCommand
 
-Execute external command and retrive STDIN/STDOUT in real time.
+# Description
 
-TODO: Delete this and the text above, and describe your gem
+Execute external command and retrive STDIN/STDOUT in real time.
 
 ## Installation
 
@@ -14,11 +14,15 @@ gem 'runtime_command'
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install runtime_command
+```
+$ gem install runtime_command
+```
 
 ## Usage
 
