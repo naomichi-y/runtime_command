@@ -1,5 +1,10 @@
 # RuntimeCommand
 
+[![Gem Version](https://badge.fury.io/rb/runtime_command.svg)](https://badge.fury.io/rb/runtime_command)
+[![Test Coverage](https://codeclimate.com/github/naomichi-y/runtime_command/badges/coverage.svg)](https://codeclimate.com/github/naomichi-y/runtime_command/coverage)
+[![Code Climate](https://codeclimate.com/github/naomichi-y/runtime_command/badges/gpa.svg)](https://codeclimate.com/github/naomichi-y/runtime_command)
+[![CircleCI](https://circleci.com/gh/naomichi-y/runtime_command/tree/master.svg?style=svg)](https://circleci.com/gh/naomichi-y/runtime_command/tree/master)
+
 # Description
 
 Execute external command and retrive STDIN/STDOUT in real time.
