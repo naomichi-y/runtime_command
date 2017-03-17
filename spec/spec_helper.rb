@@ -7,7 +7,9 @@ if ENV['CIRCLE_ARTIFACTS']
   SimpleCov.coverage_dir(dir)
 end
 
-SimpleCov.start
+SimpleCov.start do
+  coverage_dir 'tmp/coverage'
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
