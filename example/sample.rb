@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'runtime_command'
 
 command = RuntimeCommand::Builder.new
-# command.colors = :default_colors
+# command.colors = :none
 command.exec('echo "wait 3" sec; sleep 3; echo "hello world!"')
 
 # command.output = false

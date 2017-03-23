@@ -9,12 +9,9 @@ module RuntimeCommand
     # @return RuntimeCommand::Logger
     def initialize(output = true, colors = {})
       @output = output
+      @has_color = colors != :none
 
-      if colors == :default_colors
-        @stdin_color = nil
-        @stdout_color = nil
-        @stderr_color = nil
-      else
+      if @has_color
         @stdin_color = colors[:stdin] || HighLine::Style.rgb(204, 204, 0)
         @stdout_color = colors[:stdout] || HighLine::Style.rgb(64, 64, 64)
         @stderr_color = colors[:stderr] || HighLine::Style.rgb(255, 51, 51)
@@ -25,7 +22,9 @@ module RuntimeCommand
 
     # @param [String] line
     def stdin(line)
-      puts HighLine.color(line, @stdin_color) if @output
+      puts HighLine.color(line, @stdin_color) if @output && @has_color
+      puts line if @output && !@has_color
+
       @buffered_log << line + "\n"
 
       nil
@@ -38,7 +37,8 @@ module RuntimeCommand
 
     # @param [String] line
     def stdout(line)
-      puts HighLine.color(line.chomp, @stdout_color) if @output
+      puts HighLine.color(line.chomp, @stdout_color) if @output && @has_color
+      puts line if @output && !@has_color
 
       @buffered_log << line
       @buffered_stdout << line
@@ -53,7 +53,8 @@ module RuntimeCommand
 
     # @param [String] line
     def stderr(line)
-      puts HighLine.color(line.chomp, @stderr_color) if @output
+      puts HighLine.color(line.chomp, @stderr_color) if @output && @has_color
+      puts line if @output && !@has_color
 
       @buffered_log << line
       @buffered_stderr << line
