@@ -10,9 +10,15 @@ module RuntimeCommand
     def initialize(output = true, colors = {})
       @output = output
 
-      @stdin_color = colors[:stdin] || HighLine::Style.rgb(204, 204, 0)
-      @stdout_color = colors[:stdout] || HighLine::Style.rgb(64, 64, 64)
-      @stderr_color = colors[:stderr] || HighLine::Style.rgb(255, 51, 51)
+      if colors == :default_colors
+        @stdin_color = nil
+        @stdout_color = nil
+        @stderr_color = nil
+      else
+        @stdin_color = colors[:stdin] || HighLine::Style.rgb(204, 204, 0)
+        @stdout_color = colors[:stdout] || HighLine::Style.rgb(64, 64, 64)
+        @stderr_color = colors[:stderr] || HighLine::Style.rgb(255, 51, 51)
+      end
 
       flash
     end
