@@ -25,7 +25,7 @@ module RuntimeCommand
       logger = Logger.new(@output, @colors)
       logger.stdin(@stdin_prefix + ' ' + command)
 
-      begin
+      invoke_command(logger) do
         Open3.popen3(command, chdir: chdir) do |stdin, stdout, stderr|
           stdin.close
 
@@ -37,13 +37,28 @@ module RuntimeCommand
             logger.stderr(message)
           end
         end
+      end
 
-      rescue Interrupt
-        logger.stderr('Interrupt error')
-      rescue => e
-        logger.stderr(e.to_s)
-      ensure
-        @buffered_log << logger.buffered_log
+      logger
+    end
+
+    # @param [String] command
+    # @param [String] chdir
+    # @return [RuntimeCommand::Logger]
+    def exec_capture(command, chdir = nil)
+      chdir ||= @base_dir
+
+      logger = Logger.new(@output, @colors)
+      invoke_command(logger) do
+        stdout, stderr = Open3.capture3(command, chdir: chdir)
+
+        unless stdout.empty?
+          logger.stdout(stdout)
+        end
+
+        unless stderr.empty?
+          logger.stderr(stderr)
+        end
       end
 
       logger
@@ -67,6 +82,23 @@ module RuntimeCommand
 
       @buffered_log << logger.buffered_log + "\n"
       logger
+    end
+
+    private
+
+    # @param [RuntimeCommand::Logger] logger
+    def invoke_command(logger)
+      begin
+        yield
+      rescue Interrupt
+        logger.stderr('Interrupt error')
+      rescue => e
+        logger.stderr(e.to_s)
+      ensure
+        @buffered_log << logger.buffered_log
+      end
+
+      nil
     end
   end
 end
