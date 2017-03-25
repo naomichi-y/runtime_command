@@ -1,12 +1,19 @@
 require 'bundler/setup'
 require 'runtime_command'
 
-command = RuntimeCommand::Builder.new
-# command.colors = :none
-command.exec('echo "wait 3" sec; sleep 3; echo "hello world!"')
+logger = Logger.new('result.log')
+logger.formatter = proc do |severity, datetime, progname, msg|
+  "#{msg}\n"
+end
 
-# command.output = false
+command = RuntimeCommand::Builder.new(logger: logger)
+command.exec('echo hello')
+# command.exec('echo "wait 3" sec; sleep 3; echo "hello world!"')
+
 # puts command.exec('ls -la').buffered_stdout
 
-# command.colors[:stdout] = HighLine::Style.rgb(255, 0, 0)
+# colors = {
+#   stdout: HighLine::Style.rgb(255, 0, 0)
+# }
+# command = RuntimeCommand::Builder.new(colors: colors)
 # command.exec('ls -la')

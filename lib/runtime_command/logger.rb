@@ -4,17 +4,18 @@ module RuntimeCommand
   class Logger
     attr_reader :buffered_log, :buffered_stdout, :buffered_stderr
 
-    # @param [Boolean] output
-    # @param [Hash] colors
+    # @param [Hash] options
+    # @option options [Hash] colors
+    # @option options [Boolean] output
     # @return RuntimeCommand::Logger
-    def initialize(output = true, colors = {})
-      @output = output
-      @has_color = colors != :none
+    def initialize(options = {})
+      @options = options
+      @has_color = options[:colors] != :none
 
       if @has_color
-        @stdin_color = colors[:stdin] || HighLine::Style.rgb(204, 204, 0)
-        @stdout_color = colors[:stdout] || HighLine::Style.rgb(64, 64, 64)
-        @stderr_color = colors[:stderr] || HighLine::Style.rgb(255, 51, 51)
+        @stdin_color = options[:colors][:stdin] || HighLine::Style.rgb(204, 204, 0)
+        @stdout_color = options[:colors][:stdout] || HighLine::Style.rgb(64, 64, 64)
+        @stderr_color = options[:colors][:stderr] || HighLine::Style.rgb(255, 51, 51)
       end
 
       flash
@@ -22,9 +23,9 @@ module RuntimeCommand
 
     # @param [String] line
     def stdin(line)
-      puts HighLine.color(line, @stdin_color) if @output && @has_color
-      puts line if @output && !@has_color
+      puts @has_color ? HighLine.color(line, @stdin_color) : line if @options[:output]
 
+      @options[:logger].info(line) if @options[:logger]
       @buffered_log << line + "\n"
 
       nil
@@ -37,9 +38,10 @@ module RuntimeCommand
 
     # @param [String] line
     def stdout(line)
-      puts HighLine.color(line.chomp, @stdout_color) if @output && @has_color
-      puts line if @output && !@has_color
+      trim_line = line.chomp
+      puts @has_color ? HighLine.color(trim_line, @stdout_color) : line if @options[:output]
 
+      @options[:logger].info(trim_line) if @options[:logger]
       @buffered_log << line
       @buffered_stdout << line
 
@@ -53,9 +55,10 @@ module RuntimeCommand
 
     # @param [String] line
     def stderr(line)
-      puts HighLine.color(line.chomp, @stderr_color) if @output && @has_color
-      puts line if @output && !@has_color
+      trim_line = line.chomp
+      puts @has_color ? HighLine.color(trim_line, @stderr_color) : line if @options[:output]
 
+      @options[:logger].error(trim_line) if @options[:logger]
       @buffered_log << line
       @buffered_stderr << line
 

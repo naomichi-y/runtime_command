@@ -1,29 +1,37 @@
+require 'logger'
 require 'open3'
 require 'runtime_command/logger'
 
 module RuntimeCommand
   class Builder
     attr_reader :buffered_log
-    attr_accessor :stdin_prefix, :colors, :output
 
-    # @param [String] base_dir
+    # @param [Hash] options
+    # @option options [String] base_dir
+    # @option options [Hash] colors
+    # @option options [Logger] logger
+    # @option options [Boolean] output
+    # @option options [String] stdin_prefix
     # @return [RuntimeCommand::Builder]
-    def initialize(base_dir = '.')
-      @base_dir = base_dir
-      @output = true
+    def initialize(options = {})
+      options[:base_dir] ||= '.'
+      options[:colors] ||= {}
+      options[:logger] ||= nil
+      options[:output] ||= true
+      options[:stdin_prefix] ||= '>'
+
+      @options = options
       @buffered_log = ''
-      @stdin_prefix = '>'
-      @colors = {}
     end
 
     # @param [String] command
     # @param [String] chdir
     # @return [RuntimeCommand::Logger]
     def exec(command, chdir = nil)
-      chdir ||= @base_dir
+      chdir ||= @options[:base_dir]
 
-      logger = Logger.new(@output, @colors)
-      logger.stdin(@stdin_prefix + ' ' + command)
+      logger = Logger.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
+      logger.stdin(@options[:stdin_prefix] + ' ' + command)
 
       invoke_command(logger) do
         Open3.popen3(command, chdir: chdir) do |stdin, stdout, stderr|
@@ -46,9 +54,9 @@ module RuntimeCommand
     # @param [String] chdir
     # @return [RuntimeCommand::Logger]
     def exec_capture(command, chdir = nil)
-      chdir ||= @base_dir
+      chdir ||= @options[:base_dir]
 
-      logger = Logger.new(@output, @colors)
+      logger = Logger.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
       invoke_command(logger) do
         stdout, stderr = Open3.capture3(command, chdir: chdir)
         logger.stdout(stdout) unless stdout.empty?
@@ -61,7 +69,7 @@ module RuntimeCommand
     # @param [String] message
     # @return [RuntimeCommand::Logger]
     def puts(message)
-      logger = Logger.new(@output, @colors)
+      logger = Logger.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
       logger.stdout(message) unless message.nil?
 
       @buffered_log << logger.buffered_log + "\n"
@@ -71,7 +79,7 @@ module RuntimeCommand
     # @param [String] message
     # @return [RuntimeCommand::Logger]
     def puts_error(message)
-      logger = Logger.new(@output, @colors)
+      logger = Logger.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
       logger.stderr(message) unless message.nil?
 
       @buffered_log << logger.buffered_log + "\n"
