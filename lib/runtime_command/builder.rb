@@ -51,14 +51,8 @@ module RuntimeCommand
       logger = Logger.new(@output, @colors)
       invoke_command(logger) do
         stdout, stderr = Open3.capture3(command, chdir: chdir)
-
-        unless stdout.empty?
-          logger.stdout(stdout)
-        end
-
-        unless stderr.empty?
-          logger.stderr(stderr)
-        end
+        logger.stdout(stdout) unless stdout.empty?
+        logger.stderr(stderr) unless stderr.empty?
       end
 
       logger
