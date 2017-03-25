@@ -13,9 +13,9 @@ module RuntimeCommand
       @has_color = options[:colors] != :none
 
       if @has_color
-        @stdin_color = options[:colors][:stdin] || HighLine::Style.rgb(204, 204, 0)
-        @stdout_color = options[:colors][:stdout] || HighLine::Style.rgb(64, 64, 64)
-        @stderr_color = options[:colors][:stderr] || HighLine::Style.rgb(255, 51, 51)
+        @stdin_color = options.dig(:colors, :stdin) || HighLine::Style.rgb(204, 204, 0)
+        @stdout_color = options.dig(:colors, :stdout) || HighLine::Style.rgb(64, 64, 64)
+        @stderr_color = options.dig(:colors, :stderr) || HighLine::Style.rgb(255, 51, 51)
       end
 
       flash

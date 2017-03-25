@@ -8,7 +8,7 @@ end
 
 command = RuntimeCommand::Builder.new(logger: logger)
 command.exec('echo hello')
-# command.exec('echo "wait 3" sec; sleep 3; echo "hello world!"')
+command.exec('echo "wait 3" sec; sleep 3; echo "hello world!"')
 
 # puts command.exec('ls -la').buffered_stdout
 

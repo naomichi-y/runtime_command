@@ -31,7 +31,7 @@ module RuntimeCommand
     end
 
     context 'when output is true' do
-      let(:logger) { RuntimeCommand::Logger.new(true) }
+      let(:logger) { RuntimeCommand::Logger.new(output: true) }
 
       describe 'stdin' do
         it 'should be output message' do
@@ -57,7 +57,7 @@ module RuntimeCommand
     end
 
     context 'when output is false' do
-      let(:logger) { RuntimeCommand::Logger.new(false) }
+      let(:logger) { RuntimeCommand::Logger.new(output: false) }
 
       describe 'stdin' do
         it 'should be no output message' do
