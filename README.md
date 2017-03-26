@@ -43,10 +43,8 @@ command.exec('echo wait; sleep 3; echo hello')
 Output contents can be get as character string.
 
 ```
-command.output = false
-logger = command.exec('echo wait; sleep 3; echo hello')
+logger = command.exec('whoami', output: false)
 
-puts logger.buffered_log
 puts logger.buffered_stdout
 puts logger.buffered_stderr
 ```
@@ -54,6 +52,6 @@ puts logger.buffered_stderr
 Change STDOUT color.
 
 ```
-command.colors[:stdout] = HighLine::Style.rgb(255, 0, 0)
-logger = command.exec('ls -la')
+command = RuntimeCommand::Builder.new(colors: { stdout: HighLine::Style.rgb(255, 0, 0) })
+logger = command.exec('whoami')
 ```
