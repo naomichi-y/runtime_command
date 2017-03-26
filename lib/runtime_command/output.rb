@@ -1,7 +1,7 @@
 require 'highline'
 
 module RuntimeCommand
-  class Logger
+  class Output
     attr_reader :buffered_log, :buffered_stdout, :buffered_stderr
 
     # @param [Hash] options

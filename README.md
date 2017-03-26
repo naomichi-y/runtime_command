@@ -31,7 +31,7 @@ $ gem install runtime_command
 
 ## Usage
 
-Command results are show in real time on STDOUT.
+### command execution
 
 ```
 require 'runtime_command'
@@ -40,7 +40,15 @@ command = RuntimeCommand::Builder.new
 command.exec('echo wait; sleep 3; echo hello')
 ```
 
-Output contents can be get as character string.
+### Write command result to file
+
+```
+logger = Logger.new('result.log')
+command = RuntimeCommand::Builder.new(logger: logger)
+command.exec('whoami')
+```
+
+### Retrive result
 
 ```
 logger = command.exec('whoami', output: false)
@@ -49,9 +57,10 @@ puts logger.buffered_stdout
 puts logger.buffered_stderr
 ```
 
-Change STDOUT color.
+### Change output color
 
 ```
-command = RuntimeCommand::Builder.new(colors: { stdout: HighLine::Style.rgb(255, 0, 0) })
+colors = { stdout: HighLine::Style.rgb(255, 0, 0) }
+command = RuntimeCommand::Builder.new(colors: colors)
 logger = command.exec('whoami')
 ```

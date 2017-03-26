@@ -1,47 +1,47 @@
 require 'spec_helper'
 
 module RuntimeCommand
-  describe Logger do
+  describe Output do
     describe 'initialize' do
       it 'should be return instance' do
-        expect(RuntimeCommand::Logger.new).to be_a(RuntimeCommand::Logger)
+        expect(RuntimeCommand::Output.new).to be_a(RuntimeCommand::Output)
       end
     end
 
     shared_examples_for 'buffered_stdout' do
       it 'should be necessary to return buffer string' do
-        logger.flash
-        logger.stdout('test')
+        command_output.flash
+        command_output.stdout('test')
 
-        expect(logger.buffered_stdout).to eq('test')
-        expect(logger.buffered_stderr).to be_empty
-        expect(logger.buffered_log).to eq('test')
+        expect(command_output.buffered_stdout).to eq('test')
+        expect(command_output.buffered_stderr).to be_empty
+        expect(command_output.buffered_log).to eq('test')
       end
     end
 
     shared_examples_for 'buffered_stderr' do
       it 'should be necessary to return buffer string' do
-        logger.flash
-        logger.stderr('test')
+        command_output.flash
+        command_output.stderr('test')
 
-        expect(logger.buffered_stdout).to be_empty
-        expect(logger.buffered_stderr).to eq('test')
-        expect(logger.buffered_log).to eq('test')
+        expect(command_output.buffered_stdout).to be_empty
+        expect(command_output.buffered_stderr).to eq('test')
+        expect(command_output.buffered_log).to eq('test')
       end
     end
 
     context 'when output is true' do
-      let(:logger) { RuntimeCommand::Logger.new(output: true) }
+      let(:command_output) { RuntimeCommand::Output.new(output: true) }
 
       describe 'stdin' do
         it 'should be output message' do
-          expect { logger.stdin('test') }.to output(/test/).to_stdout
+          expect { command_output.stdin('test') }.to output(/test/).to_stdout
         end
       end
 
       describe 'stdout' do
         it 'should be output message' do
-          expect { logger.stdout('test') }.to output(/test/).to_stdout
+          expect { command_output.stdout('test') }.to output(/test/).to_stdout
         end
 
         it_should_behave_like 'buffered_stdout'
@@ -49,7 +49,7 @@ module RuntimeCommand
 
       describe 'stderr' do
         it 'should be output message' do
-          expect { logger.stderr('test') }.to output(/test/).to_stdout
+          expect { command_output.stderr('test') }.to output(/test/).to_stdout
         end
 
         it_should_behave_like 'buffered_stderr'
@@ -57,17 +57,17 @@ module RuntimeCommand
     end
 
     context 'when output is false' do
-      let(:logger) { RuntimeCommand::Logger.new(output: false) }
+      let(:command_output) { RuntimeCommand::Output.new(output: false) }
 
       describe 'stdin' do
         it 'should be no output message' do
-          expect { logger.stdin('test') }.to output(/^$/).to_stdout
+          expect { command_output.stdin('test') }.to output(/^$/).to_stdout
         end
       end
 
       describe 'stdout' do
         it 'should be no output message' do
-          expect { logger.stdout('test') }.to output(/^$/).to_stdout
+          expect { command_output.stdout('test') }.to output(/^$/).to_stdout
         end
 
         it_should_behave_like 'buffered_stdout'
@@ -75,7 +75,7 @@ module RuntimeCommand
 
       describe 'stderr' do
         it 'should be no output message' do
-          expect { logger.stderr('test') }.to output(/^$/).to_stdout
+          expect { command_output.stderr('test') }.to output(/^$/).to_stdout
         end
 
         it_should_behave_like 'buffered_stderr'

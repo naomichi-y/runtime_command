@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'runtime_command'
 
 logger = Logger.new('result.log')
-logger.formatter = proc do |severity, datetime, progname, msg|
+logger.formatter = proc do |_severity, _datetime, _progname, msg|
   "#{msg}\n"
 end
 
