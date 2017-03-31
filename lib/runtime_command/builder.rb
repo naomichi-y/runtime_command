@@ -29,51 +29,51 @@ module RuntimeCommand
     # @return [RuntimeCommand::Output]
     def exec(command, chdir = nil)
       chdir ||= @options[:base_dir]
-      logger = Output.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
+      output = Output.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
 
       begin
-        logger.stdin(@options[:stdin_prefix] + ' ' + command)
+        output.stdin(@options[:stdin_prefix] + ' ' + command)
         Open3.popen3(command, chdir: chdir) do |stdin, stdout, stderr|
           stdin.close
 
           stdout.each do |message|
-            logger.stdout(message)
+            output.stdout(message)
           end
 
           stderr.each do |message|
-            logger.stderr(message)
+            output.stderr(message)
           end
         end
 
       rescue Interrupt
-        logger.stderr('Interrupt error')
+        output.stderr('Interrupt error')
       rescue => e
-        logger.stderr(e.to_s)
+        output.stderr(e.to_s)
       ensure
-        @buffered_log << logger.buffered_log
+        @buffered_log << output.buffered_log
       end
 
-      logger
+      output
     end
 
     # @param [String] message
     # @return [RuntimeCommand::Output]
     def puts(message)
-      logger = Output.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
-      logger.stdout(message) unless message.nil?
+      output = Output.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
+      output.stdout(message) unless message.nil?
 
-      @buffered_log << logger.buffered_log + "\n"
-      logger
+      @buffered_log << output.buffered_log + "\n"
+      output
     end
 
     # @param [String] message
     # @return [RuntimeCommand::Output]
     def puts_error(message)
-      logger = Output.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
-      logger.stderr(message) unless message.nil?
+      output = Output.new(output: @options[:output], colors: @options[:colors], logger: @options[:logger])
+      output.stderr(message) unless message.nil?
 
-      @buffered_log << logger.buffered_log + "\n"
-      logger
+      @buffered_log << output.buffered_log + "\n"
+      output
     end
   end
 end
